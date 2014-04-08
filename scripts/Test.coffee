@@ -41,19 +41,6 @@ module.exports = (robot) ->
           x++
     msg.send total
   robot.respond /complement (.*)/i, (msg) ->
+    require 'FileOpen.coffee'
     target = msg.match[1]
-    console.log(target)
-    ComplementData = []
-    fs = require("fs")
-    fileName = "ComplementList.txt"
-    fs.exists fileName, (exists) ->
-      if exists
-        fs.stat fileName, (error, stats) ->
-          fs.open fileName, "r", (error, fd) ->
-            buffer = new Buffer(stats.size)
-            fs.read fd, buffer, 0, buffer.length, null, (error, bytesRead, buffer) ->
-              data = buffer.toString("utf8", 0, buffer.length)
-              ComplementData = data.split('\n')
-              console.log(ComplementData[40])
-              fs.close fd
-      console.log(ComplementData[20])    
+    console.log("HI")
