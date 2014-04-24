@@ -1,9 +1,41 @@
-module.exports = (robot) -> 
-  robot.respond /cat/i, (msg) ->
-    msg.send "They are horrible"
+# Commands:
+#   JoshBot giphy me <search term> - grabs a random gif from the search term.
+#   JoshBot chz me <search item> - grabs a random gif from cheezburger
+#   JoshBot divide - divide
+#   JoshBot subtract - subracts
+#   JoshBot add - adds
+#   JoshBot multiply - multiplies
+#   JoshBot compliment me (or a User) - compliments a user
+#   JoshBot add compliment - add a compliment to the compliment list
+#   JoshBot insult me (or a User) - insults a user
+#   JoshBot add insult - adds an insult to the insult list
 
-  robot.respond /dog/i, (msg) ->
-    msg.send "#{msg.message.user.name}, Dog's are the worst"
+
+
+
+module.exports = (robot) -> 
+
+    
+  robot.respond /giphy me(.*)/i, (msg) ->
+    search_term = msg.match[1]
+    msg.http("http://api.giphy.com/v1/gifs/search?q=" + search_term + "&api_key=dc6zaTOxFJmzC&limit=15")
+      .get() (err, res, body) ->
+        try
+          json = JSON.parse(body)
+          RandNum = Math.floor(Math.random()*json.data.length)
+          msg.send json.data[RandNum].images.fixed_height.url
+     
+
+
+  robot.respond /chz me(.*)/i, (msg) ->
+    searched_term = msg.match[1]
+    msg.http("http://search.cheezburger.com/api/search?q=" + searched_term + "%20type:gif")    
+      .get() (err, res, body) ->
+        try
+          json = JSON.parse(body)
+          RandNum = Math.floor(Math.random()*json.models.length)
+          msg.send json.models[RandNum].url + ".gif"
+         
 
   robot.respond /(divide|subtract|add|multiply)(.*)/i, (msg) ->
     sign = msg.match[1]
@@ -44,7 +76,7 @@ module.exports = (robot) ->
     
     
   robot.respond /compliment (.*)/i, (msg) ->
-    target = msg.match[1]
+    target = msg.envelope.user.name
     ComplimentData = []
     fs = require("fs")
     fileName = "ComplimentList.txt"
@@ -56,11 +88,12 @@ module.exports = (robot) ->
             fs.read fd, buffer, 0, buffer.length, null, (error, bytesRead, buffer) ->
               data = buffer.toString("utf8", 0, buffer.length)
               ComplimentData = data.split('\n')
-              randomnum = ComplimentData[Math.floor(Math.random()*ComplimentData.length)]
+              randomnum = Math.floor(Math.random()*ComplimentData.length)
+              console.log(randomnum)
               if target is "me"
-                msg.send "#{msg.message.user.name}, " + randomnum
+                msg.send "#{msg.message.user.name}, " + ComplimentData[randomnum]
               else
-                msg.send target + ", " + randomnum
+                msg.send target + ", " + ComplimentData[randomnum]
               fs.close fd
               
 
@@ -74,8 +107,8 @@ module.exports = (robot) ->
 
       
   robot.respond /insult (.*)/i, (msg) ->
-    target = msg.match[1]
-    ComplimentData = []
+    target = msg.envelope.user.name
+    InsultData = []
     fs = require("fs")
     fileName = "InsultList.txt"
     fs.exists fileName, (exists) ->
@@ -103,8 +136,28 @@ module.exports = (robot) ->
       return      
 
 
+      
   robot.hear /good morning(.*)/i, (msg) ->
-    msg.send "#{msg.message.user.name}, may your day be filled with random outbursts of infectious giggles!"   
+    target = msg.envelope.user.name
+    MorningData = []
+    fs = require("fs")
+    fileName = "MorningList.txt"
+    fs.exists fileName, (exists) ->
+      if exists
+        fs.stat fileName, (error, stats) ->
+           fs.open fileName, "r", (error, fd) ->
+            buffer = new Buffer(stats.size)
+            fs.read fd, buffer, 0, buffer.length, null, (error, bytesRead, buffer) ->
+              data = buffer.toString("utf8", 0, buffer.length)
+              MorningData = data.split('\n')
+              randomnum = Math.floor(Math.random()*MorningData.length)
+              console.log(randomnum)
+              if target is "me"
+                msg.send "#{msg.message.user.name}, " + MorningData[randomnum]
+              else
+                msg.send target + ", " + MorningData[randomnum]
+              fs.close fd       
+ 
       
   
   
@@ -159,4 +212,4 @@ module.exports = (robot) ->
         ChzBotDead = 1
         battle = 0
         msg.send ("JoshBot has successfully slain ChzBot. Three cheers for the victor!")
-    
+   
