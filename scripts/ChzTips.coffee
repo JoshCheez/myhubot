@@ -1,20 +1,21 @@
 module.exports = (robot) -> 
+  
 
-    
+  robot.hear /kill(.*)/i, (msg) ->
+    msg.send "KILLING"
+    robot.brain.remove 'TipData'
+  
+
   robot.respond /tip (.*)/i, (msg) ->
     answers = msg.match[1]
     reg = /\s/g
-    split = answers.split(/\s+/g)
+    transfer_data = answers.split(/\s+/g)
+    Tips = robot.brain.get('TipData')
+    dataloaded = robot.brain.get('DataLoaded')
+    msg.send Tips.Names.Josh.Burrito
+    if dataloaded is false 
+      console.log "Tips is Null"
+    else  
+      msg.send "Tips is here!"
 
-    Employee_Data = []
-    fs = require("fs")
-    fileName = "Tipping.json"
-    fs.exists fileName, (exists) ->
-      if exists
-        fs.stat fileName, (error, stats) ->
-           fs.open fileName, "r", (error, fd) ->
-            buffer = new Buffer(stats.size)
-            fs.read fd, buffer, 0, buffer.length, null, (error, bytesRead, buffer) ->
-              Employee_Data = JSON.parse(buffer)
-              msg.send Employee_Data.Names.Josh.Burrito
-              fs.close fd
+      
