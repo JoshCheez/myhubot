@@ -1,13 +1,15 @@
 module.exports = (robot) -> 
 
   tiploaded = false
+  flags = 0
+  JSON_Data = 
   TipData = {}
+  console.log tiploaded
   Employee_Data = []
   robot.brain.on 'loaded', ->
     if tiploaded is true
       return
         
-    console.log "bite me"
     robot.brain.remove 'TipData'
     fs = require("fs")
     fileName = "Tipping.txt"
@@ -25,19 +27,13 @@ module.exports = (robot) ->
               tiploaded = true
               fs.close fd 
 
-
-#  setInterval (->            
-#    done = tiploaded
-#    console.log(done)
-#    if done is true
-#      fs = require("fs")
-#      robot.brain.set  'TipData', Employee_Data
-#      console.log Employee_Data
-#      fs.writeFile "Tipping.txt", Employee_Data, (err) ->
-#
-#        throw err if err
-#        console.log "It is saved!"
-#        return
-#    else 
-#      console.log "Not Loaded Yet"
-#  ), 1000
+              
+  interval =  setInterval (->                           
+    while tiploaded is true and flags is 0
+      console.log ("flag is " + flags)
+      flags = 1  
+      robot.brain.set 'TipsLoaded', tiploaded
+      robot.brain.set  'TipData', Employee_Data
+      clearInterval(interval)
+  ), 500
+  

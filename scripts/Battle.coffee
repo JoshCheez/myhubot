@@ -20,24 +20,23 @@ module.exports = (robot) ->
 
     
     BattleScript = (attacktype, attacking_bot, defending_bot) ->
-      console.log attacktype
       switch attacktype
-        when "1"
+        when 1
           defending_bot.Health = defending_bot.Health - (attacking_bot.Dmg * 1.5)
           return (attacking_bot.Name + " critically hit " + defending_bot.Name + " for " + (attacking_bot.Dmg * 1.5) + " points of damage." + defending_bot.Name + " has " + defending_bot.Health + " hitpoints left!")
-        when "2"
+        when 2
           defending_bot.Health = defending_bot.Health - attacking_bot.Dmg
-          return (attacking_bot.Name + " critically hit " + defending_bot.Name + " for " + (attacking_bot.Dmg * 1.5) + " points of damage." + defending_bot.Name + " has " + defending_bot.Health + " hitpoints left!")
-        when "3"
+          return (attacking_bot.Name + " hit " + defending_bot.Name + " for " + (attacking_bot.Dmg) + " points of damage." + defending_bot.Name + " has " + defending_bot.Health + " hitpoints left!")
+        when 3
           defending_bot.Health = defending_bot.Health - attacking_bot.Dmg
-          return (attacking_bot.Name + " critically hit " + defending_bot.Name + " for " + (attacking_bot.Dmg * 1.5) + " points of damage." + defending_bot.Name + " has " + defending_bot.Health + " hitpoints left!")        
-        when "4"
+          return (attacking_bot.Name + " hit " + defending_bot.Name + " for " + (attacking_bot.Dmg) + " points of damage." + defending_bot.Name + " has " + defending_bot.Health + " hitpoints left!")        
+        when 4
           defending_bot.Health = defending_bot.Health - attacking_bot.Dmg
-          return (attacking_bot.Name + " critically hit " + defending_bot.Name + " for " + (attacking_bot.Dmg * 1.5) + " points of damage." + defending_bot.Name + " has " + defending_bot.Health + " hitpoints left!")  
-        when "5"
+          return (attacking_bot.Name + " hit " + defending_bot.Name + " for " + (attacking_bot.Dmg) + " points of damage." + defending_bot.Name + " has " + defending_bot.Health + " hitpoints left!")  
+        when 5
           defending_bot.Health = defending_bot.Health - (attacking_bot.Dmg * .5)
           return (attacking_bot.Name + " hit a glancing blow to " + defending_bot.Name + " for " + (attacking_bot.Dmg * .5) + " points of damage." + defending_bot.Name + " has " + defending_bot.Health + " hitpoints left!")          
-        when "6"
+        when 6
           return (attacking_bot.Name + " has MISSED!")        
     JoshBot =
       Name: "JoshBot"
@@ -67,7 +66,7 @@ module.exports = (robot) ->
 
         while ChzBotturn is 1 and battle isnt 0
           #Write ChzBot Attack Script	
-          attack_type = Math.floor(Math.random() * 5) + 1          
+          attack_type = Math.floor(Math.random() * 5) + 1              
           message2 = BattleScript attack_type, ChzBot, JoshBot
           message_string += message2
           message_string += new_line          
@@ -95,7 +94,7 @@ module.exports = (robot) ->
         while JoshBotturn is 1 and battle isnt 0
     
         #Write JoshBot Attack Script
-          attack_type = Math.floor(Math.random() * 5) + 1        
+          attack_type = Math.floor(Math.random() * 5) + 1    
           message2 = BattleScript attack_type, JoshBot, ChzBot    
           message_string += message2
           message_string += new_line
