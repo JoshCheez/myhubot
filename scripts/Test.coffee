@@ -103,8 +103,83 @@ module.exports = (robot) ->
       throw err if err
       msg.send "It is saved!"
       return
+       
 
-      
+  robot.respond /bret bomb(.*)/i, (msg) ->
+    new_line = "\n"   
+  
+    message_string = "http://i.imgur.com/SERXnhF.gif"
+    message_string += new_line
+    message_string += "http://i.imgur.com/SERXnhF.gif"
+    message_string += new_line
+    message_string += "http://i.imgur.com/5Gd83Sy.gif"
+    message_string += new_line
+    message_string += "http://i.imgur.com/5Gd83Sy.gif"
+    message_string += new_line
+    message_string += "http://i.imgur.com/VGHdphI.gif"
+    message_string += new_line
+    message_string += "http://i.imgur.com/SERXnhF.gif"
+    msg.send message_string
+    
+  robot.hear /sad(.*)/i, (msg) ->
+    msg.send "Cheer up! " + "http://i.imgur.com/ug4bv3J.gif"
+    
+  robot.respond /sandwich bomb(.*)/i, (msg) ->
+    new_line = "\n"   
+    randomnum = Math.floor(Math.random()*4)
+    console.log randomnum
+    if randomnum is 0
+      message_string = "http://i.imgur.com/9uiCesi.jpg"
+      message_string += new_line
+      message_string += "http://i.imgur.com/RoV1abo.jpg"
+      message_string += new_line
+      message_string += "http://i.imgur.com/vuEwUMs.jpg"
+      message_string += new_line
+      message_string += "http://i.imgur.com/HRJEguE.jpg"
+      message_string += new_line
+      message_string += "http://i.imgur.com/fQYjE5f.jpg"
+      message_string += new_line
+      message_string += "http://i.imgur.com/CUse5nY.jpg"
+      msg.send message_string    
+    if randomnum is 1
+      message_string = "http://i.imgur.com/9uiCesi.jpg"
+      message_string += new_line
+      message_string += "http://i.imgur.com/RoV1abo.jpg"
+      message_string += new_line
+      message_string += "http://i.imgur.com/vuEwUMs.jpg"
+      message_string += new_line
+      message_string += "http://i.imgur.com/HRJEguE.jpg"
+      message_string += new_line
+      message_string += "http://i.imgur.com/fQYjE5f.jpg"
+      message_string += new_line
+      message_string += "http://i.imgur.com/CUse5nY.jpg"
+      msg.send message_string
+    if randomnum is 2
+      message_string = "http://i.imgur.com/9uiCesi.jpg"
+      message_string += new_line
+      message_string += "http://i.imgur.com/RoV1abo.jpg"
+      message_string += new_line
+      message_string += "http://i.imgur.com/vuEwUMs.jpg"
+      message_string += new_line
+      message_string += "http://i.imgur.com/HRJEguE.jpg"
+      message_string += new_line
+      message_string += "http://i.imgur.com/fQYjE5f.jpg"
+      message_string += new_line
+      message_string += "http://i.imgur.com/CUse5nY.jpg"
+      msg.send message_string
+    if randomnum is 3
+      message_string = "http://i.imgur.com/xzehchs.jpg"
+      message_string += new_line
+      message_string += "http://i.imgur.com/Y9ZQ5ud.jpg"
+      message_string += new_line
+      message_string += "http://i.imgur.com/YiOvJt3.jpg"
+      message_string += new_line
+      message_string += "http://i.imgur.com/CIJfbOR.jpg"
+      message_string += new_line
+      message_string += "http://i.imgur.com/cNvwVxx.jpg"
+      msg.send message_string
+    
+    
   robot.respond /insult (.*)/i, (msg) ->
     target = msg.match[1]
     InsultData = []
